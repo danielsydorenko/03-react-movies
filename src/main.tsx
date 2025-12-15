@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import 'modern-normalize/modern-normalize.css';
 import App from './components/App/App';
-import './index.css';
+import './styles/globals.css';
+import 'modern-normalize/modern-normalize.css';
+import 'react-hot-toast';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
