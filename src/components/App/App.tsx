@@ -38,7 +38,7 @@ const App = () => {
 
   return (
     <div>
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSubmit={handleSearch} />
       {loading && <p className="loader-text">Loading movies, please wait...</p>}
       {!loading && movies.length > 0 && (
         <MovieGrid

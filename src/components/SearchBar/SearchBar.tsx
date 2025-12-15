@@ -1,27 +1,25 @@
 import type { FC, FormEvent } from 'react';
-import styles from './SearchBar.module.css';
 import { toast } from 'react-hot-toast';
+import styles from './SearchBar.module.css';
 
 interface SearchBarProps {
-  onSearch: (query: string) => void;
+  onSubmit: (query: string) => void;
 }
 
-const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: FC<SearchBarProps> = ({ onSubmit }) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const form = e.currentTarget;
-
     const queryElement = form.elements.namedItem('query') as HTMLInputElement;
-    const query = queryElement.value;
+    const query = queryElement.value.trim();
 
-    if (query.trim() === '') {
+    if (!query) {
       toast.error('Please enter a search term...');
       return;
     }
 
-    onSearch(query.trim());
-
+    onSubmit(query);
     form.reset();
   };
 
@@ -37,7 +35,6 @@ const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
           Visit TMDB
         </a>
 
-        {/* ЗМІНА ТУТ: action={...} змінюємо на onSubmit={...} */}
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="text"
@@ -45,7 +42,6 @@ const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
             className={styles.input}
             placeholder="Search movies..."
           />
-
           <button type="submit" className={styles.button}>
             Search
           </button>
