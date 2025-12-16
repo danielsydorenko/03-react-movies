@@ -1,4 +1,4 @@
-import type { FC, FormEvent } from 'react';
+import type { FC } from 'react'; // <-- ВИПРАВЛЕНО: додано слово 'type'
 import { toast } from 'react-hot-toast';
 import styles from './SearchBar.module.css';
 
@@ -7,20 +7,15 @@ interface SearchBarProps {
 }
 
 const SearchBar: FC<SearchBarProps> = ({ onSubmit }) => {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (formData: FormData) => {
+    const query = formData.get('query');
 
-    const form = e.currentTarget;
-    const queryElement = form.elements.namedItem('query') as HTMLInputElement;
-    const query = queryElement.value.trim();
-
-    if (!query) {
+    if (typeof query !== 'string' || !query.trim()) {
       toast.error('Please enter a search term...');
       return;
     }
 
-    onSubmit(query);
-    form.reset();
+    onSubmit(query.trim());
   };
 
   return (
@@ -35,12 +30,15 @@ const SearchBar: FC<SearchBarProps> = ({ onSubmit }) => {
           Visit TMDB
         </a>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
+        {/* @ts-expect-error */}
+        <form action={handleSubmit} className={styles.form}>
           <input
             type="text"
             name="query"
             className={styles.input}
             placeholder="Search movies..."
+            autoComplete="off"
+            autoFocus
           />
           <button type="submit" className={styles.button}>
             Search

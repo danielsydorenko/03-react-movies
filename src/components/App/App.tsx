@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import SearchBar from '../SearchBar/SearchBar';
 import MovieGrid from '../MovieGrid/MovieGrid';
 import MovieModal from '../MovieModal/MovieModal';
+import Loader from '../Loader/Loader';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { fetchMovies } from '../../services/movieService';
-import { toast } from 'react-hot-toast';
 import type { Movie } from '../../types/movie';
 
 const App = () => {
@@ -39,14 +41,21 @@ const App = () => {
   return (
     <div>
       <SearchBar onSubmit={handleSearch} />
-      {loading && <p className="loader-text">Loading movies, please wait...</p>}
+
+      {loading && <Loader />}
+
       {!loading && movies.length > 0 && (
         <MovieGrid
           movies={movies}
           onSelect={movie => setSelectedMovie(movie)}
         />
       )}
-      {error && <p className="error-msg">Failed to load movies</p>}
+
+      {}
+      {}
+      {error && <ErrorMessage />}
+
+      {}
 
       {selectedMovie && (
         <MovieModal
